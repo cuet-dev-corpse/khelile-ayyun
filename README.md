@@ -14,3 +14,4 @@ Follow these intructions to set up the bot in your computer
    TOKEN = {Secret Token Here}
    ```
    > Note: Put the secret token in place of `{Secret Token Here}`
+8. Run `python main.py`
