@@ -1,4 +1,4 @@
-# Khelibenni
+# খেলিলি আইয়ুন
 
 ## Setting up the bot
 Follow these intructions to set up the bot in your computer
