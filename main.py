@@ -2,7 +2,8 @@ import discord
 import os # default module
 from dotenv import load_dotenv
 
-load_dotenv() # load all the variables from the env file
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASEDIR, '.env-var')) # load all the variables from the env file
 bot = discord.Bot(intents=discord.Intents.all())
 
 @bot.event

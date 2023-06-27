@@ -17,7 +17,7 @@ source bot-env/bin/activate
 pip install -r requirements.txt
 
 # Make a file for environment variables
-echo "TOKEN = {Put your token here}" > .env
+echo "TOKEN = {Put your token here}" > .env-var
 
 # Run the bot
 python main.py
@@ -36,7 +36,7 @@ python -m venv bot-env
 pip install -r requirements.txt
 
 :: Make a file for environment variables
-echo "TOKEN = {Put your token here}" > .env
+echo "TOKEN = {Put your token here}" > .env-var
 
 :: Run the bot
 python main.py
