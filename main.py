@@ -19,15 +19,9 @@ async def about(ctx):
     embed = discord.Embed(
         title="About খেলিলি আইয়ুন",
         description="খেলিলি আইয়ুন is a discord bot created to work as a helping hand for CP communities\nCheck out our GitHub repo [here](https://github.com/cuet-dev-corpse/khelile-ayyun)",
-        color=discord.Colour.blurple(),
+        color=discord.Colour.from_rgb(65,135,235),
     )
     embed.set_footer(text="Made with 💖 by CUET Dev Corpse") # footers can have icons too
     await ctx.respond(embed=embed)
-
-@bot.event
-async def on_member_join(member):
-    await member.send(
-        f'Welcome to the server, {member.mention}! Enjoy your stay here.'
-    )
 
 bot.run(os.getenv('TOKEN')) # run the bot with the token
