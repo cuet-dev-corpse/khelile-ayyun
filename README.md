@@ -7,7 +7,7 @@ Follow these intructions to set up the bot in your computer
 3. `cd khelile-ayyun`
 4. In Windows: `python -m venv bot-env`
    In Linux: `python3 -m venv bot-env`
-5. In windows: `.\bot-env\Scirpt\activate`\
+5. In windows: `.\bot-env\Script\activate`\
    In Linux: `source bot-env/bin/activate`
 6. `pip install -r requirements.txt`
 7. Create a file named `.env` and put the following code there
