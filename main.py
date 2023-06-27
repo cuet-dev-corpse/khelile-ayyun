@@ -10,7 +10,7 @@ bot = discord.Bot(intents=discord.Intents.all())
 async def on_ready():
     print(f"{bot.user} is ready and online!")
 
-@bot.slash_command(name = "hello", description = "Say hello to the bot")
+@bot.slash_command(name = "hi", description = "Say hello to the bot")
 async def hello(ctx):
     await ctx.respond("Hey!")
 
