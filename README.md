@@ -1,18 +1,43 @@
 # খেলিলি আইয়ুন
 
 ## Setting up the bot
-Follow these intructions to set up the bot in your computer
-1. Download Python and Git
-2. Clone this repository
-3. `cd khelile-ayyun`
-4. In Windows: `python -m venv bot-env`
-   In Linux: `python3 -m venv bot-env`
-5. In windows: `.\bot-env\Script\activate`\
-   In Linux: `source bot-env/bin/activate`
-6. `pip install -r requirements.txt`
-7. Create a file named `.env` and put the following code there
-   ```
-   TOKEN = {Secret Token Here}
-   ```
-   > Note: Put the secret token in place of `{Secret Token Here}`
-8. Run `python main.py`
+
+Firstly Download Python and Git. Then follow the following instructions\
+### For Linux:
+```bash
+# Clone GitHub repository, and move into the folder
+git clone https://github.com/cuet-dev-corpse/khelile-ayyun
+cd khelile-ayyun
+
+# Create and activate a virtual environment
+python3 -m venv bot-env
+source bot-env/bin/activate
+
+# Install required packages
+pip install -r requirements.txt
+
+# Make a file for environment variables
+echo "TOKEN = {Put your token here}" > .env
+
+# Run the bot
+python main.py
+```
+### For Windows:
+```batch
+:: Clone GitHub repository, and move into the folder
+git clone https://github.com/cuet-dev-corpse/khelile-ayyun
+cd khelile-ayyun
+
+:: Create and activate a virtual environment
+python -m venv bot-env
+.\bot-env\Scripts\activate.bat
+
+:: Install required packages
+pip install -r requirements.txt
+
+:: Make a file for environment variables
+echo "TOKEN = {Put your token here}" > .env
+
+:: Run the bot
+python main.py
+```
