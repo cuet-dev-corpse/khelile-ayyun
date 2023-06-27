@@ -1,4 +1,5 @@
 from enum import Enum
+from dataclasses import dataclass
 
 
 class Type(Enum):
@@ -19,6 +20,7 @@ class Testset(Enum):
         14)
 
 
+@dataclass
 class User:
     handle: str
     email: str | None
@@ -39,6 +41,7 @@ class User:
     title_photo: str
 
 
+@dataclass
 class RatingChange:
     contest_id: int
     contest_name: str
@@ -49,11 +52,13 @@ class RatingChange:
     new_rating: int
 
 
+@dataclass
 class Member:
     handle: str
     name: str | None
 
 
+@dataclass
 class Party:
     contest_id: int | None
     members: list[Member]
@@ -65,6 +70,7 @@ class Party:
     start_time_seconds: int | None
 
 
+@dataclass
 class Problem:
     contest_id: int | None
     problemset_name: str | None
@@ -76,6 +82,7 @@ class Problem:
     tags: list[str]
 
 
+@dataclass
 class Submission:
     id: int
     contest_id: int | None
