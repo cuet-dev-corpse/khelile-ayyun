@@ -2,7 +2,7 @@
 
 ## Setting up the bot
 
-Firstly Download Python and Git. Then follow the following instructions\
+Firstly Download Python and Git. Then follow the following instructions
 ### For Linux:
 ```bash
 # Clone GitHub repository, and move into the folder
