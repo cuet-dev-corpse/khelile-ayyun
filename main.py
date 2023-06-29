@@ -2,6 +2,7 @@ import discord
 import os  # default module
 from dotenv import load_dotenv
 from discord import ApplicationContext
+from constants import PRIMARY_COLOR, ABOUT_DESCRIPTION, ABOUT_TITLE, ABOUT_FOOTER
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 # load all the variables from the env file
@@ -21,25 +22,15 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 
-@bot.slash_command(name="hi", description="Say hello to the bot")
-async def hello(ctx: ApplicationContext):
-    await ctx.respond("Hey!")
+@bot.slash_command(name="duel", description="Play duel against an opponent")
+async def duel(ctx: ApplicationContext):
+    await ctx.respond("The feature is not implemented yet", ephemeral=True)
 
 
 @bot.slash_command(name="about", description="Get to know খেলিলি আইয়ুন")
 async def about(ctx: ApplicationContext):
-    embed = discord.Embed(
-        title="About খেলিলি আইয়ুন",
-        description=(
-            "খেলিলি আইয়ুন is a discord bot created to work as a helping hand for CP communities\n"
-            "The name of the bot was inspired by মেজ্জান হাইলে আইয়ুন\n\n"
-            ":point_right: Check out our GitHub repo [here](https://github.com/cuet-dev-corpse/khelile-ayyun)\n"
-            ":construction: The bot is currently under construction. All features may not work properly"
-        ),
-        color=discord.Colour.from_rgb(65, 135, 235),
-    )
-    # footers can have icons too
-    embed.set_footer(text="Made with 💖 by CUET Dev Corpse")
+    embed = discord.Embed(title=ABOUT_TITLE, description=ABOUT_DESCRIPTION, color=PRIMARY_COLOR)
+    embed.set_footer(text=ABOUT_FOOTER)
     await ctx.respond(embed=embed, ephemeral=True)
 
 bot.run(os.getenv('TOKEN'))  # run the bot with the token
