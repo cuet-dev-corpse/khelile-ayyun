@@ -12,7 +12,7 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 @bot.slash_command(name = "hi", description = "Say hello to the bot")
-async def hello(ctx):
+async def hello(ctx: ApplicationContext):
     await ctx.respond("Hey!")
 
 @bot.slash_command(name = "about", description = "Get to know খেলিলি আইয়ুন")
@@ -22,7 +22,6 @@ async def about(ctx: ApplicationContext):
         description=(
             "খেলিলি আইয়ুন is a discord bot created to work as a helping hand for CP communities\n"
             "The name of the bot was inspired by মেজ্জান হাইলে আইয়ুন\n\n"
-            ":point_right: Type `/help` to see the list of commands\n"
             ":point_right: Check out our GitHub repo [here](https://github.com/cuet-dev-corpse/khelile-ayyun)\n"
         ),
         color=discord.Colour.from_rgb(65,135,235),
