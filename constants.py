@@ -1,6 +1,10 @@
+'''
+Contains all the constants in one file so that we can change it without altering the main code
+'''
 from discord import Color
 
 PRIMARY_COLOR = Color.from_rgb(65, 135, 235)
+
 ABOUT_TITLE = "About খেলিলি আইয়ুন"
 ABOUT_DESCRIPTION = (
     "খেলিলি আইয়ুন is a discord bot created to work as a helping hand for CP communities\n"

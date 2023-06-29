@@ -1,3 +1,4 @@
 bot-env
 .env-var
 .vscode
+__pycache__/
