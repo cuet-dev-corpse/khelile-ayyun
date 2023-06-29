@@ -1,21 +1,31 @@
 import discord
-import os # default module
+import os  # default module
 from dotenv import load_dotenv
 from discord import ApplicationContext
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(BASEDIR, '.env-var')) # load all the variables from the env file
-bot = discord.Bot(intents=discord.Intents.all(), activity=discord.Activity(type=discord.ActivityType.playing, name="Duel against Tourist"))
+# load all the variables from the env file
+load_dotenv(os.path.join(BASEDIR, '.env-var'))
+bot = discord.Bot(
+    intents=discord.Intents.all(),
+    activity=discord.Activity(
+        type=discord.ActivityType.playing,
+        name="Duel against Tourist",
+    ),
+)
+
 
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
 
-@bot.slash_command(name = "hi", description = "Say hello to the bot")
+
+@bot.slash_command(name="hi", description="Say hello to the bot")
 async def hello(ctx: ApplicationContext):
     await ctx.respond("Hey!")
 
-@bot.slash_command(name = "about", description = "Get to know খেলিলি আইয়ুন")
+
+@bot.slash_command(name="about", description="Get to know খেলিলি আইয়ুন")
 async def about(ctx: ApplicationContext):
     embed = discord.Embed(
         title="About খেলিলি আইয়ুন",
@@ -25,9 +35,10 @@ async def about(ctx: ApplicationContext):
             ":point_right: Check out our GitHub repo [here](https://github.com/cuet-dev-corpse/khelile-ayyun)\n"
             ":construction: The bot is currently under construction. All features may not work properly"
         ),
-        color=discord.Colour.from_rgb(65,135,235),
+        color=discord.Colour.from_rgb(65, 135, 235),
     )
-    embed.set_footer(text="Made with 💖 by CUET Dev Corpse") # footers can have icons too
+    # footers can have icons too
+    embed.set_footer(text="Made with 💖 by CUET Dev Corpse")
     await ctx.respond(embed=embed, ephemeral=True)
 
-bot.run(os.getenv('TOKEN')) # run the bot with the token
+bot.run(os.getenv('TOKEN'))  # run the bot with the token
