@@ -5,7 +5,7 @@ from discord import ApplicationContext
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(BASEDIR, '.env-var')) # load all the variables from the env file
-bot = discord.Bot(intents=discord.Intents.all())
+bot = discord.Bot(intents=discord.Intents.all(), activity=discord.Activity(type=discord.ActivityType.playing, name="Duel against Tourist"))
 
 @bot.event
 async def on_ready():
@@ -23,6 +23,7 @@ async def about(ctx: ApplicationContext):
             "খেলিলি আইয়ুন is a discord bot created to work as a helping hand for CP communities\n"
             "The name of the bot was inspired by মেজ্জান হাইলে আইয়ুন\n\n"
             ":point_right: Check out our GitHub repo [here](https://github.com/cuet-dev-corpse/khelile-ayyun)\n"
+            ":construction: The bot is currently under construction. All features may not work properly"
         ),
         color=discord.Colour.from_rgb(65,135,235),
     )
