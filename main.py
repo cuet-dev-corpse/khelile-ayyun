@@ -12,6 +12,7 @@ bot = discord.Bot(
         type=discord.ActivityType.playing,
         name="Duel against Tourist",
     ),
+    status=discord.Status.dnd,
 )
 
 
