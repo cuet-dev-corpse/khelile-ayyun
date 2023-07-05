@@ -1,6 +1,5 @@
 import os
 from math import log2
-
 from discord import (
     Activity,
     ActivityType,
@@ -14,7 +13,6 @@ from discord import (
 )
 from discord.ext.commands import has_permissions
 from dotenv import load_dotenv
-
 from constants import ABOUT_DESCRIPTION, ABOUT_FOOTER, ABOUT_TITLE, PRIMARY_COLOR
 
 # path of this file
@@ -36,9 +34,7 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 
-@bot.slash_command(
-    name="handle_set", description="Register/change your codeforces handle"
-)
+@bot.slash_command(description="Register/change your codeforces handle")
 async def handle_set(
     ctx: ApplicationContext,
     handle: Option(input_type=str, description="Codeforces handle", required=True),
@@ -49,16 +45,17 @@ async def handle_set(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(name="whois", description="Play duel against an opponent")
+@bot.slash_command(description="Play duel against an opponent")
 async def whois(
-    ctx: ApplicationContext, member: Option(Member, description="Member of this server")
+    ctx: ApplicationContext,
+    member: Option(Member, description="Member of this server"),
 ):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(name="duel", description="Play duel against an opponent")
+@bot.slash_command(description="Play duel against an opponent")
 async def duel(
     ctx: ApplicationContext,
     opponent: Option(Member, description="Member of this server"),
@@ -69,16 +66,14 @@ async def duel(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(name="duel_withdraw", description="Play duel against an opponent")
+@bot.slash_command(description="Play duel against an opponent")
 async def duel_witdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(
-    name="tournament_cancel", description="Cancel the current tournament"
-)
+@bot.slash_command(description="Cancel the current tournament")
 @has_permissions(moderate_members=True)
 async def tournament_withdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
@@ -86,7 +81,7 @@ async def tournament_withdraw(ctx: ApplicationContext):
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(name="tournament_create", description="Create a new tournament")
+@bot.slash_command(description="Create a new tournament")
 @has_permissions(moderate_members=True)
 async def tournament_create(
     ctx: ApplicationContext,
