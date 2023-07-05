@@ -1,6 +1,7 @@
 from typing import Optional
 import requests
-from objects import Problem
+from objects import Problem, Status
+from exceptions import CFStatusFailed
 
 BASE_URL = "https://codeforces.com/api"
 
@@ -10,11 +11,13 @@ def problemset_problems(tags: list[str] = [], problemset_name: Optional[str] = N
         'tags': ';'.join(tags),
         'problemsetName': problemset_name
     }
-    response = requests.get(
+    data = requests.get(
         url=BASE_URL + "/problemset.problems",
         params=params,
-    )
-    return [Problem(**prob) for prob in response.json()['result']['problems']]
+    ).json()
+    if data['status'] == Status.FAILED:
+        raise CFStatusFailed
+    return [Problem(**prob) for prob in data.json()['result']['problems']]
 
 
 def problemset_reset_status(count, problemset_name):

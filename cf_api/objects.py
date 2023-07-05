@@ -3,6 +3,10 @@ from pydantic import BaseModel, root_validator
 from typing import Optional
 
 
+class Status(Enum):
+    FAILED = "FAILED"
+    OK = "OK"
+
 class Type(Enum):
     PROGRAMMING = "PROGRAMMING"
     QUESTION = "QUESTION"
