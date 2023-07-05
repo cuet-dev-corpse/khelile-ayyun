@@ -62,7 +62,7 @@ def user_rating(handle: str) -> list[RatingChange]:
 def user_status(handle: str, from_: int, count: int):
     params = {
         'handle': handle,
-        'from': _from,
+        'from': from_,
         'count': count
     }
     data = requests.get(
