@@ -1,15 +1,20 @@
+from typing import Optional
 import requests
 from objects import Problem
 
+BASE_URL = "https://codeforces.com/api"
 
-def problemset_problems(tags: list[str] = None, problemset_name: str = None):
+
+def problemset_problems(tags: list[str] = [], problemset_name: Optional[str] = None) -> list[Problem]:
     params = {
         'tags': ';'.join(tags),
         'problemsetName': problemset_name
     }
     response = requests.get(
-        f"https://codeforces.com/api/problemset.problems", params=params)
-    return [Problem() for prob in response.json()]
+        url=BASE_URL + "/problemset.problems",
+        params=params,
+    )
+    return [Problem(**prob) for prob in response.json()['result']['problems']]
 
 
 def problemset_reset_status(count, problemset_name):
@@ -29,4 +34,4 @@ def user_status(handle, _from, count):
 
 
 if __name__ == '__main__':
-    problemset_problems(tags=["implementation"])
+    print(problemset_problems())
