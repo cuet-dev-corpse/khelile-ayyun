@@ -1,6 +1,6 @@
-'''
+"""
 Contains all the constants in one file so that we can change it without altering the main code
-'''
+"""
 from discord import Color
 
 PRIMARY_COLOR = Color.from_rgb(65, 135, 235)

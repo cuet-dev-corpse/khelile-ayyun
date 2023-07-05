@@ -1,11 +1,12 @@
 from enum import Enum
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel
 from typing import Optional
 
 
 class Status(Enum):
     FAILED = "FAILED"
     OK = "OK"
+
 
 class Type(Enum):
     PROGRAMMING = "PROGRAMMING"
