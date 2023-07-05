@@ -1,105 +1,128 @@
 from enum import Enum
-from dataclasses import dataclass
+from pydantic import BaseModel, root_validator
+from typing import Optional
 
 
 class Type(Enum):
-    PROGRAMMING, QUESTION = range(2)
+    PROGRAMMING = "PROGRAMMING"
+    QUESTION = "QUESTION"
 
 
 class ParticipantType(Enum):
-    CONTESTANT, PRACTICE, VIRTUAL, MANAGER, OUT_OF_COMPETITION = range(5)
+    CONTESTANT = "CONTESTANT"
+    PRACTICE = "PRACTICE"
+    VIRTUAL = "VIRTUAL"
+    MANAGER = "MANAGER"
+    OUT_OF_COMPETITION = "OUT_OF_COMPETITION"
 
 
 class Verdict(Enum):
-    (
-        FAILED, OK, PARTIAL, COMPILATION_ERROR, RUNTIME_ERROR, WRONG_ANSWER,
-        PRESENTATION_ERROR, TIME_LIMIT_EXCEEDED, MEMORY_LIMIT_EXCEEDED,
-        IDLENESS_LIMIT_EXCEEDED, SECURITY_VIOLATED, CRASHED,
-        INPUT_PREPARATION_CRASHED, CHALLENGED, SKIPPED, TESTING, REJECTED
-    ) = range(17)
+    FAILED = "FAILED"
+    OK = "OK"
+    PARTIAL = "PARTIAL"
+    COMPILATION_ERROR = "COMPILATION_ERROR"
+    RUNTIME_ERROR = "RUNTIME_ERROR"
+    WRONG_ANSWER = "WRONG_ANSWER"
+    PRESENTATION_ERROR = "PRESENTATION_ERROR"
+    TIME_LIMIT_EXCEEDED = "TIME_LIMIT_EXCEEDED"
+    MEMORY_LIMIT_EXCEEDED = "MEMORY_LIMIT_EXCEEDED"
+    IDLENESS_LIMIT_EXCEEDED = "IDLENESS_LIMIT_EXCEEDED"
+    SECURITY_VIOLATED = "SECURITY_VIOLATED"
+    CRASHED = "CRASHED"
+    INPUT_PREPARATION_CRASHED = "INPUT_PREPARATION_CRASHED"
+    CHALLENGED = "CHALLENGED"
+    SKIPPED = "SKIPPED"
+    TESTING = "TESTING"
+    REJECTED = "REJECTED"
 
 
 class Testset(Enum):
-    (
-        SAMPLES, PRETESTS, TESTS, CHALLENGES, TESTS1, TESTS2, TESTS3, TESTS4,
-        TESTS5, TESTS6, TESTS7, TESTS8, TESTS9, TESTS10
-    ) = range(14)
+    SAMPLES = "SAMPLES"
+    PRETESTS = "PRETESTS"
+    TESTS = "TESTS"
+    CHALLENGES = "CHALLENGES"
+    TESTS1 = "TESTS1"
+    TESTS2 = "TESTS2"
+    TESTS3 = "TESTS3"
+    TESTS4 = "TESTS4"
+    TESTS5 = "TESTS5"
+    TESTS6 = "TESTS6"
+    TESTS7 = "TESTS7"
+    TESTS8 = "TESTS8"
+    TESTS9 = "TESTS9"
+    TESTS10 = "TESTS10"
 
 
-@dataclass
-class User:
+class User(BaseModel):
     handle: str
-    email: str | None
-    first_name: str | None
-    last_name: str | None
-    country: str | None
-    city: str | None
-    organization: str | None
+    email: Optional[str] = None
+    vkId: Optional[str] = None
+    openId: Optional[str] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    country: Optional[str] = None
+    city: Optional[str] = None
+    organization: Optional[str] = None
     contribution: int
     rank: str
     rating: int
-    max_rank: str
-    max_rating: int
-    last_online_time_seconds: int
-    registration_time_seconds: int
-    friend_of_count: int
+    maxRank: str
+    maxRating: int
+    lastOnlineTimeSeconds: int
+    registrationTimeSeconds: int
+    friendOfCount: int
     avatar: str
-    title_photo: str
+    titlePhoto: str
 
 
-@dataclass
-class RatingChange:
-    contest_id: int
-    contest_name: str
+class RatingChange(BaseModel):
+    contestId: int
+    contestName: str
     handle: str
     rank: int
-    rating_update_time_seconds: int
-    old_rating: int
-    new_rating: int
+    ratingUpdateTimeSeconds: int
+    oldRating: int
+    newRating: int
 
 
-@dataclass
-class Member:
+class Member(BaseModel):
     handle: str
-    name: str | None
+    name: Optional[str] = None
 
 
-@dataclass
-class Party:
-    contest_id: int | None
+class Party(BaseModel):
+    contestId: Optional[int] = None
     members: list[Member]
-    participant_type: ParticipantType
-    team_id: int | None
-    team_name: str | None
+    participantType: ParticipantType
+    teamId: Optional[int] = None
+    teamName: Optional[str] = None
     ghost: bool
-    room: int | None
-    start_time_seconds: int | None
+    room: Optional[int] = None
+    startTimeSeconds: Optional[int] = None
 
 
-@dataclass
-class Problem:
-    contest_id: int | None
-    problemset_name: str | None
+class Problem(BaseModel):
+    contestId: Optional[int] = None
+    problemsetName: Optional[str] = None
     index: str
     name: str
     type: Type
-    points: float | None
-    rating: int | None
+    points: Optional[float] = None
+    rating: Optional[int] = None
     tags: list[str]
 
 
-@dataclass
-class Submission:
+class Submission(BaseModel):
     id: int
-    contest_id: int | None
-    creation_time_seconds: int
-    relative_time_seconds: int
+    contestId: Optional[int] = None
+    creationTimeSeconds: int
+    relativeTimeSeconds: int
     problem: Problem
     author: Party
-    programming_language: str
-    verdict: Verdict | None
+    programmingLanguage: str
+    verdict: Optional[Verdict] = None
     testset: Testset
-    past_test_count: int
-    time_consumed_millis: int
-    memory_consumed_bytes: int
-    points: int
+    passedTestCount: int
+    timeConsumedMillis: int
+    memoryConsumedBytes: int
+    points: Optional[int] = None
