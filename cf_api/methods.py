@@ -59,7 +59,7 @@ def user_rating(handle: str) -> list[RatingChange]:
     return [RatingChange(**rating_change) for rating_change in data['result']]
 
 
-def user_status(handle: str, _from: int, count: int):
+def user_status(handle: str, from_: int, count: int):
     params = {
         'handle': handle,
         'from': _from,
