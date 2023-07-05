@@ -7,6 +7,9 @@ BASE_URL = "https://codeforces.com/api"
 
 
 def problemset_problems(tags: list[str] = [], problemset_name: Optional[str] = None) -> list[Problem]:
+    '''
+    Returns all problems from problemset. Problems can be filtered by tags.
+    '''
     params = {
         'tags': ';'.join(tags),
         'problemsetName': problemset_name
@@ -21,6 +24,9 @@ def problemset_problems(tags: list[str] = [], problemset_name: Optional[str] = N
 
 
 def problemset_recent_status(count: int) -> list[Submission]:
+    '''
+    Returns recent submissions.
+    '''
     params = {
         'count': count
     }
@@ -34,6 +40,9 @@ def problemset_recent_status(count: int) -> list[Submission]:
 
 
 def user_info(handles: list[str]) -> list[User]:
+    '''
+    Returns information about one or several users.
+    '''
     params = {
         'handles': ';'.join(handles)
     }
@@ -47,6 +56,9 @@ def user_info(handles: list[str]) -> list[User]:
 
 
 def user_rating(handle: str) -> list[RatingChange]:
+    '''
+    Returns rating history of the specified user.
+    '''
     params = {
         'handle': handle
     }
@@ -60,6 +72,9 @@ def user_rating(handle: str) -> list[RatingChange]:
 
 
 def user_status(handle: str, from_: int, count: int):
+    '''
+    Returns submissions of specified user.
+    '''
     params = {
         'handle': handle,
         'from': from_,
