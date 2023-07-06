@@ -38,14 +38,23 @@ bot = Bot(
     status=Status.do_not_disturb,
 )
 
+
 def add_fields(embed: Embed, model: BaseModel):
     for key, val in model.model_dump().items():
         if key not in IGNORE_FIELDS and val is not None:
             embed.add_field(name=key, value=str(val))
 
+
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
+
+
+@bot.command(description="Sends the bot's latency.")
+async def ping(ctx):
+    embed = Embed(color=PRIMARY_COLOR)
+    embed.description = f"Pong! Latency is {int(bot.latency*1000)}ms"
+    await ctx.respond(embed=embed, ephemeral=True)
 
 
 @bot.command(description="Register/change your codeforces handle")
