@@ -1,5 +1,5 @@
 from bot.constants import TOP_25_TAGS
-from services.cf_api.methods import problemset_problems
+from services.codeforces.methods import problemset_problems
 from services.db import get_handle
 
 

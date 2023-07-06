@@ -11,8 +11,8 @@ from bot.constants import (
     TOP_25_TAGS,
 )
 from bot.utils import add_fields
-from services.cf_api.exceptions import CFStatusFailed
-from services.cf_api.methods import problemset_problems, user_info
+from services.codeforces.exceptions import CFStatusFailed
+from services.codeforces.methods import problemset_problems, user_info
 from services.db import add_duel, get_handle, set_handle
 
 

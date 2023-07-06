@@ -1,6 +1,6 @@
 from typing import Optional
 import requests
-from .objects import Problem, RatingChange, Status, Submission, User
+from .models import Problem, RatingChange, Status, Submission, User
 from .exceptions import CFStatusFailed
 
 BASE_URL = "https://codeforces.com/api"
