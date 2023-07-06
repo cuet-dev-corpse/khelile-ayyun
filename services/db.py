@@ -2,7 +2,7 @@ import json
 from typing import Optional
 import os
 
-from models import Duel
+from bot.models import Duel
 
 DB_PATH = "db/"
 HANDLES_PATH = DB_PATH + "handles.json"
