@@ -23,7 +23,7 @@ from constants import (
     TOP_25_TAGS,
 )
 from services.cf_api.exceptions import CFStatusFailed
-from services.cf_api.methods import user_info
+from services.cf_api.methods import problemset_problems, user_info
 from services.db import get_handle, set_handle
 
 # path of this file
@@ -103,11 +103,10 @@ async def get(
 async def challenge(
     ctx: ApplicationContext,
     rating: Option(int, description="Rating of problem", required=True),  # type: ignore
-    tag: Option(str, choices=TOP_25_TAGS),  # type: ignore
-    opponent: Option(Member, description="Keep it blank for open duel"),  # type: ignore
+    tag: Option(str, choices=TOP_25_TAGS, required=False),  # type: ignore
+    opponent: Option(Member, description="Keep it blank for open duel", required=False),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
-    embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 

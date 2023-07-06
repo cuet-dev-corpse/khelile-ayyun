@@ -111,10 +111,19 @@ class Problem(BaseModel):
     problemsetName: Optional[str] = None
     index: str
     name: str
-    type: Type
+    type: Optional[Type] = None
     points: Optional[float] = None
     rating: Optional[int] = None
-    tags: list[str]
+    tags: Optional[list[str]] = []
+
+    def __eq__(self, __value: object) -> bool:
+        if not isinstance(__value, Problem):
+            raise NotImplemented
+        return (
+            self.contestId == __value.contestId
+            and self.index == __value.index
+            and self.name == __value.name
+        )
 
 
 class Submission(BaseModel):

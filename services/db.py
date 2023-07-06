@@ -1,11 +1,15 @@
 import json
 from typing import Optional
+import os
 
-
-HANDLES_PATH = "db/handles.json"
+DB_PATH = "db/"
+HANDLES_PATH = DB_PATH + "handles.json"
 
 
 def get_handle(uid: int) -> Optional[str]:
+    if not os.path.exists(HANDLES_PATH):
+        with open(HANDLES_PATH, "w") as f:
+            f.write(json.dumps([]))
     with open(HANDLES_PATH) as f:
         entries: list[dict] = json.loads(f.read())
     for entry in entries:
