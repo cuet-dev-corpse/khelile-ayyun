@@ -13,7 +13,16 @@ from discord import (
 )
 from discord.ext.commands import has_permissions
 from dotenv import load_dotenv
-from constants import ABOUT_DESCRIPTION, ABOUT_FOOTER, ABOUT_TITLE, PRIMARY_COLOR
+from constants import (
+    ABOUT_DESCRIPTION,
+    ABOUT_FOOTER,
+    ABOUT_TITLE,
+    PRIMARY_COLOR,
+    IGNORE_FIELDS,
+)
+from services.cf_api.methods import user_info
+from services.cf_api.exceptions import CFStatusFailed
+from services.db import get_handle, set_handle
 
 # path of this file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -37,29 +46,50 @@ async def on_ready():
 @bot.slash_command(description="Register/change your codeforces handle")
 async def handle_set(
     ctx: ApplicationContext,
-    handle: Option(str, description="Codeforces handle", required=True), # type: ignore
-    member: Option(Member, description="Member of this server"), # type: ignore
+    handle: Option(str, description="Codeforces handle", required=True),  # type: ignore
+    member: Option(Member, description="Member of this server", required=False),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
-    embed.description = "The feature is not implemented yet"
+    try:
+        user = user_info(handles=[handle])[0]
+        uid = member.id if member else ctx.user.id
+        set_handle(uid, handle)
+        embed.set_thumbnail(url=user.avatar)
+        for key, val in user.model_dump().items():
+            if key not in IGNORE_FIELDS and val is not None:
+                embed.add_field(name=key, value=str(val))
+        embed.description = f"Handle of <@{uid}> set to `{handle}`"
+    except CFStatusFailed as e:
+        embed.description = str(e)
     await ctx.respond(embed=embed, ephemeral=True)
 
 
 @bot.slash_command(description="Play duel against an opponent")
 async def whois(
     ctx: ApplicationContext,
-    member: Option(Member, description="Member of this server"), # type: ignore
+    member: Option(Member, description="Member of this server"),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
-    embed.description = "The feature is not implemented yet"
+    handle = get_handle(member.id)
+    if handle:
+        try:
+            user = user_info(handles=[handle])[0]
+            embed.set_thumbnail(url=user.avatar)
+            for key, val in user.model_dump().items():
+                if key not in IGNORE_FIELDS and val is not None:
+                    embed.add_field(name=key, value=str(val))
+        except CFStatusFailed as e:
+            embed.description = str(e)
+    else:
+        embed.description = f"<@{member.id}> didn't set their handle yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
 @bot.slash_command(description="Play duel against an opponent")
 async def duel(
     ctx: ApplicationContext,
-    opponent: Option(Member, description="Member of this server"), # type: ignore
-    rating: Option(int, description="Rating of problem"), # type: ignore
+    opponent: Option(Member, description="Member of this server"),  # type: ignore
+    rating: Option(int, description="Rating of problem"),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
@@ -85,7 +115,7 @@ async def tournament_withdraw(ctx: ApplicationContext):
 @has_permissions(moderate_members=True)
 async def tournament_create(
     ctx: ApplicationContext,
-    n: Option(int, description="Number of players", required=True), # type: ignore
+    n: Option(int, description="Number of players", required=True),  # type: ignore
 ):
     # verification
     embed = Embed(color=PRIMARY_COLOR)

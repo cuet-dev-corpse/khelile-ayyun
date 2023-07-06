@@ -13,3 +13,5 @@ ABOUT_DESCRIPTION = (
     ":construction: The bot is currently under construction. All features may not work properly"
 )
 ABOUT_FOOTER = "Made with 💖 by CUET Dev Corpse"
+
+IGNORE_FIELDS = ['lastOnlineTimeSeconds', 'registrationTimeSeconds', 'avatar', 'titlePhoto']

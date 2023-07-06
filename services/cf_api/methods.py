@@ -1,7 +1,7 @@
 from typing import Optional
 import requests
-from objects import Problem, RatingChange, Status, Submission, User
-from exceptions import CFStatusFailed
+from .objects import Problem, RatingChange, Status, Submission, User
+from .exceptions import CFStatusFailed
 
 BASE_URL = "https://codeforces.com/api"
 
@@ -66,6 +66,3 @@ def user_status(handle: str, from_: int, count: int):
     if data["status"] == Status.FAILED.value:
         raise CFStatusFailed(data["comment"])
     return [Submission(**submission) for submission in data["result"]]
-
-
-print(user_info(handles=["oqiweflaksjdflkajsfq"]))
