@@ -26,19 +26,27 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 
-@bot.slash_command(description="Sends the bot's latency.")
+@bot.slash_command()
 async def ping(ctx):
+    """Sends the bot's latency in miliseconds"""
     embed = d.Embed(color=PRIMARY_COLOR)
-    embed.description = f"Pong! Latency is {int(bot.latency*1000)}ms"
+    embed.description = f"Latency is {int(bot.latency*1000)}ms"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Register/change codeforces handle")
+@bot.slash_command()
 async def handle_set(
     ctx: d.ApplicationContext,
     handle: d.Option(str, description="Codeforces handle", required=True),  # type: ignore
     member: d.Option(d.Member, description="d.Member of this server", required=False),  # type: ignore
 ):
+    """Register/change Codeforces handle
+
+    Handled Cases:
+    - Member mentioned is the bot itself
+    - CFStatusFailed
+        - Handle is not a valid CF handle
+    """
     embed = d.Embed(color=PRIMARY_COLOR)
     try:
         user = user_info(handles=[handle])[0]
@@ -55,11 +63,17 @@ async def handle_set(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Look up someone's handle")
+@bot.slash_command()
 async def handle_get(
     ctx: d.ApplicationContext,
-    member: d.Option(d.Member, description="d.Member of this server"),  # type: ignore
+    member: d.Option(d.Member, description="Member of this server"),  # type: ignore
 ):
+    """Look up someone's handle
+
+    Handled Cases:
+    - Member mentioned is the bot itself
+    - CFStatusFailed
+    """
     embed = d.Embed(color=PRIMARY_COLOR)
     if member.id == bot.user.id:  # type: ignore
         embed.description = "I don't have a codeforces account :sob:"
@@ -77,7 +91,7 @@ async def handle_get(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Challenge someone for a duel")
+@bot.slash_command()
 @d.guild_only()
 async def duel_challenge(
     ctx: d.ApplicationContext,
@@ -85,6 +99,14 @@ async def duel_challenge(
     tag: d.Option(str, choices=TOP_25_TAGS, required=False),  # type: ignore
     opponent: d.Option(d.Member, description="Keep it blank for open duel", required=False),  # type: ignore
 ):
+    """Challenge someone for a duel
+
+    Handled Cases:
+    - Opponent mentioned is the bot itself
+    - Challengee or Challenger didn't set handle
+    - Open challenge with no duelist in the server
+    - CFStatusFailed
+    """
     embed = d.Embed(color=PRIMARY_COLOR)
     duel = Duel(challengerId=ctx.user.id, rating=rating)
     existing_duel = add_duel(ctx.guild_id, duel)  # type: ignore
