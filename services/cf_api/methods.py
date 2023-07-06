@@ -15,7 +15,7 @@ def problemset_problems(
         url=BASE_URL + "/problemset.problems",
         params=params,
     ).json()
-    if data["status"] == Status.FAILED:
+    if data["status"] == Status.FAILED.value:
         raise CFStatusFailed(data["comment"])
     return [Problem(**problem) for problem in data["result"]["problems"]]
 
@@ -27,7 +27,7 @@ def problemset_recent_status(count: int) -> list[Submission]:
         url=BASE_URL + "/problemset.recentStatus",
         params=params,
     ).json()
-    if data["status"] == Status.FAILED:
+    if data["status"] == Status.FAILED.value:
         raise CFStatusFailed(data["comment"])
     return [Submission(**submission) for submission in data["result"]]
 
@@ -39,7 +39,7 @@ def user_info(handles: list[str]) -> list[User]:
         url=BASE_URL + "/user.info",
         params=params,
     ).json()
-    if data["status"] == Status.FAILED:
+    if data["status"] == Status.FAILED.value:
         raise CFStatusFailed(data["comment"])
     return [User(**user) for user in data["result"]]
 
@@ -51,7 +51,7 @@ def user_rating(handle: str) -> list[RatingChange]:
         url=BASE_URL + "/user.rating",
         params=params,
     ).json()
-    if data["status"] == Status.FAILED:
+    if data["status"] == Status.FAILED.value:
         raise CFStatusFailed(data["comment"])
     return [RatingChange(**rating_change) for rating_change in data["result"]]
 
@@ -63,6 +63,9 @@ def user_status(handle: str, from_: int, count: int):
         url=BASE_URL + "/user.status",
         params=params,
     ).json()
-    if data["status"] == Status.FAILED:
+    if data["status"] == Status.FAILED.value:
         raise CFStatusFailed(data["comment"])
     return [Submission(**submission) for submission in data["result"]]
+
+
+print(user_info(handles=["oqiweflaksjdflkajsfq"]))

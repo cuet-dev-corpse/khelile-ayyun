@@ -37,8 +37,8 @@ async def on_ready():
 @bot.slash_command(description="Register/change your codeforces handle")
 async def handle_set(
     ctx: ApplicationContext,
-    handle: Option(input_type=str, description="Codeforces handle", required=True),
-    member: Option(Member, description="Member of this server"),
+    handle: Option(str, description="Codeforces handle", required=True), # type: ignore
+    member: Option(Member, description="Member of this server"), # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
@@ -48,7 +48,7 @@ async def handle_set(
 @bot.slash_command(description="Play duel against an opponent")
 async def whois(
     ctx: ApplicationContext,
-    member: Option(Member, description="Member of this server"),
+    member: Option(Member, description="Member of this server"), # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
@@ -58,8 +58,8 @@ async def whois(
 @bot.slash_command(description="Play duel against an opponent")
 async def duel(
     ctx: ApplicationContext,
-    opponent: Option(Member, description="Member of this server"),
-    rating: Option(int, description="Rating of problem"),
+    opponent: Option(Member, description="Member of this server"), # type: ignore
+    rating: Option(int, description="Rating of problem"), # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
@@ -85,7 +85,7 @@ async def tournament_withdraw(ctx: ApplicationContext):
 @has_permissions(moderate_members=True)
 async def tournament_create(
     ctx: ApplicationContext,
-    n: Option(input_type=int, description="Number of players", required=True),
+    n: Option(int, description="Number of players", required=True), # type: ignore
 ):
     # verification
     embed = Embed(color=PRIMARY_COLOR)
