@@ -18,11 +18,11 @@ from constants import (
     ABOUT_DESCRIPTION,
     ABOUT_FOOTER,
     ABOUT_TITLE,
-    PRIMARY_COLOR,
     IGNORE_FIELDS,
+    PRIMARY_COLOR,
 )
-from services.cf_api.methods import user_info
 from services.cf_api.exceptions import CFStatusFailed
+from services.cf_api.methods import user_info
 from services.db import get_handle, set_handle
 
 # path of this file
