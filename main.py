@@ -20,6 +20,7 @@ from constants import (
     ABOUT_TITLE,
     IGNORE_FIELDS,
     PRIMARY_COLOR,
+    TOP_25_TAGS,
 )
 from services.cf_api.exceptions import CFStatusFailed
 from services.cf_api.methods import user_info
@@ -101,8 +102,9 @@ async def get(
 @duel.command(description="Play duel against an opponent")
 async def challenge(
     ctx: ApplicationContext,
-    opponent: Option(Member, description="Member of this server"),  # type: ignore
-    rating: Option(int, description="Rating of problem"),  # type: ignore
+    rating: Option(int, description="Rating of problem", required=True),  # type: ignore
+    tag: Option(str, choices=TOP_25_TAGS),  # type: ignore
+    opponent: Option(Member, description="Keep it blank for open duel"),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"

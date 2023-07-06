@@ -14,4 +14,37 @@ ABOUT_DESCRIPTION = (
 )
 ABOUT_FOOTER = "Made with 💖 by CUET Dev Corpse"
 
-IGNORE_FIELDS = ['lastOnlineTimeSeconds', 'registrationTimeSeconds', 'avatar', 'titlePhoto']
+IGNORE_FIELDS = [
+    "lastOnlineTimeSeconds",
+    "registrationTimeSeconds",
+    "avatar",
+    "titlePhoto",
+]
+
+TOP_25_TAGS = [
+    "hashing",
+    "interactive",
+    "probabilities",
+    "shortest paths",
+    "divide and conquer",
+    "dsu",
+    "geometry",
+    "*special",
+    "two pointers",
+    "bitmasks",
+    "combinatorics",
+    "number theory",
+    "strings",
+    "trees",
+    "dfs and similar",
+    "binary search",
+    "sortings",
+    "graphs",
+    "brute force",
+    "constructive algorithms",
+    "data structures",
+    "dp",
+    "greedy",
+    "implementation",
+    "math",
+]
