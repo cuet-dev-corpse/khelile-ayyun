@@ -62,7 +62,7 @@ async def ping(ctx):
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@handle.command(description="Register/change your codeforces handle")
+@handle.command(description="Register/change codeforces handle")
 async def set(
     ctx: ApplicationContext,
     handle: Option(str, description="Codeforces handle", required=True),  # type: ignore
@@ -84,7 +84,7 @@ async def set(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@handle.command(description="Play duel against an opponent")
+@handle.command(description="Look up someone's handle")
 async def get(
     ctx: ApplicationContext,
     member: Option(Member, description="Member of this server"),  # type: ignore
@@ -106,7 +106,7 @@ async def get(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@duel.command(description="Play duel against an opponent", guild_only=True)
+@duel.command(description="Challenge someone for a duel", guild_only=True)
 async def challenge(
     ctx: ApplicationContext,
     rating: Option(int, description="Rating of problem", required=True),  # type: ignore
@@ -129,14 +129,14 @@ async def challenge(
         await ctx.respond(f"<@{opponent_id}>", embed=embed, ephemeral=True)
 
 
-@duel.command(description="Play duel against an opponent", guild_only=True)
+@duel.command(description="Withdraw a duel", guild_only=True)
 async def witdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@tournament.command(description="Cancel the current tournament", guild_only=True)
+@tournament.command(description="Withdraw the current tournament", guild_only=True)
 @has_permissions(moderate_members=True)
 async def withdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
