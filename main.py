@@ -72,10 +72,13 @@ async def set(
     try:
         user = user_info(handles=[handle])[0]
         uid = member.id if member else ctx.user.id
-        set_handle(uid, handle)
-        add_fields(embed, user)
-        embed.set_thumbnail(url=user.avatar)
-        embed.description = f"Handle of <@{uid}> set to `{handle}`"
+        if uid == bot.user.id: # type: ignore
+            embed.description = "I don't have a codeforces account :sob:"
+        else:
+            set_handle(uid, handle)
+            add_fields(embed, user)
+            embed.set_thumbnail(url=user.avatar)
+            embed.description = f"Handle of <@{uid}> set to `{handle}`"
     except CFStatusFailed as e:
         embed.description = str(e)
     await ctx.respond(embed=embed, ephemeral=True)
@@ -89,12 +92,15 @@ async def get(
     embed = Embed(color=PRIMARY_COLOR)
     handle = get_handle(member.id)
     if handle:
-        try:
-            user = user_info(handles=[handle])[0]
-            embed.set_thumbnail(url=user.avatar)
-            add_fields(embed, user)
-        except CFStatusFailed as e:
-            embed.description = str(e)
+        if uid == bot.user.id: # type: ignore
+            embed.description = "I don't have a codeforces account :sob:"
+        else:
+            try:
+                user = user_info(handles=[handle])[0]
+                embed.set_thumbnail(url=user.avatar)
+                add_fields(embed, user)
+            except CFStatusFailed as e:
+                embed.description = str(e)
     else:
         embed.description = f"<@{member.id}> didn't set their handle yet"
     await ctx.respond(embed=embed, ephemeral=True)
