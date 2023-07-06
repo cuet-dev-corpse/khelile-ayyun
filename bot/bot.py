@@ -1,7 +1,6 @@
 from math import log2
 import discord as d
 from discord.ext.commands import has_permissions
-from pydantic import BaseModel
 from bot.models import Duel
 from bot.constants import (
     ABOUT_DESCRIPTION,
@@ -19,7 +18,6 @@ from services.db import add_duel, get_handle, set_handle
 bot = d.Bot(
     intents=d.Intents.all(),
     activity=d.Activity(type=d.ActivityType.playing, name="Duel against Tourist"),
-    status=d.Status.do_not_disturb,
 )
 
 
@@ -38,8 +36,8 @@ async def ping(ctx):
 @bot.slash_command(description="Register/change codeforces handle")
 async def handle_set(
     ctx: d.ApplicationContext,
-    handle: Option(str, description="Codeforces handle", required=True),  # type: ignore
-    member: Option(Member, description="Member of this server", required=False),  # type: ignore
+    handle: d.Option(str, description="Codeforces handle", required=True),  # type: ignore
+    member: d.Option(d.Member, description="d.Member of this server", required=False),  # type: ignore
 ):
     embed = d.Embed(color=PRIMARY_COLOR)
     try:
@@ -60,7 +58,7 @@ async def handle_set(
 @bot.slash_command(description="Look up someone's handle")
 async def handle_get(
     ctx: d.ApplicationContext,
-    member: Option(Member, description="Member of this server"),  # type: ignore
+    member: d.Option(d.Member, description="d.Member of this server"),  # type: ignore
 ):
     embed = d.Embed(color=PRIMARY_COLOR)
     if member.id == bot.user.id:  # type: ignore
@@ -83,9 +81,9 @@ async def handle_get(
 @d.guild_only()
 async def duel_challenge(
     ctx: d.ApplicationContext,
-    rating: Option(int, description="Rating of problem", required=True),  # type: ignore
-    tag: Option(str, choices=TOP_25_TAGS, required=False),  # type: ignore
-    opponent: Option(Member, description="Keep it blank for open duel", required=False),  # type: ignore
+    rating: d.Option(int, description="Rating of problem", required=True),  # type: ignore
+    tag: d.Option(str, choices=TOP_25_TAGS, required=False),  # type: ignore
+    opponent: d.Option(d.Member, description="Keep it blank for open duel", required=False),  # type: ignore
 ):
     embed = d.Embed(color=PRIMARY_COLOR)
     duel = Duel(challengerId=ctx.user.id, rating=rating)
@@ -125,7 +123,7 @@ async def tournament_withdraw(ctx: d.ApplicationContext):
 @has_permissions(moderate_members=True)
 async def tournament_create(
     ctx: d.ApplicationContext,
-    n: Option(int, description="Number of players", required=True),  # type: ignore
+    n: d.Option(int, description="Number of players", required=True),  # type: ignore
 ):
     # verification
     embed = d.Embed(color=PRIMARY_COLOR)

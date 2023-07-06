@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
-from services.cf_api.objects import Problem
+from services.codeforces.models import Problem
 
 
 class Duel(BaseModel):
