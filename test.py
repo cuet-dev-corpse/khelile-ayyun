@@ -21,4 +21,4 @@ def print_top_25_tags():
 
 # print_top_25_tags()
 # print(len(TOP_25_TAGS))
-print(get_handle(123))
+# print(get_handle(123))

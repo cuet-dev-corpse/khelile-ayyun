@@ -22,9 +22,10 @@ from constants import (
     PRIMARY_COLOR,
     TOP_25_TAGS,
 )
+from models import Duel
 from services.cf_api.exceptions import CFStatusFailed
 from services.cf_api.methods import problemset_problems, user_info
-from services.db import get_handle, set_handle
+from services.db import add_duel, get_handle, set_handle
 
 # path of this file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -99,7 +100,7 @@ async def get(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@duel.command(description="Play duel against an opponent")
+@duel.command(description="Play duel against an opponent", guild_only=True)
 async def challenge(
     ctx: ApplicationContext,
     rating: Option(int, description="Rating of problem", required=True),  # type: ignore
@@ -107,17 +108,29 @@ async def challenge(
     opponent: Option(Member, description="Keep it blank for open duel", required=False),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
-    await ctx.respond(embed=embed, ephemeral=True)
+    duel = Duel(challengerId=ctx.user.id, rating=rating)
+    existing_duel = add_duel(ctx.guild_id, duel)  # type: ignore
+    if existing_duel:
+        embed.description = f"There is already a duel between <@{existing_duel.challengeeId}> and <@{existing_duel.challengerId}>"
+        await ctx.respond(embed=embed, ephemeral=True)
+    else:
+        embed.title = "Are you up for a duel?"
+        embed.add_field(name="Opponent", value=f"<@{ctx.user.id}>")
+        embed.add_field(name="Rating", value=str(rating))
+        if tag:
+            embed.add_field(name="Tag", value=tag)
+        opponent_id = opponent.id if opponent else "UNDER CONSTRUCTION"
+        await ctx.respond(f"<@{opponent_id}>", embed=embed, ephemeral=True)
 
 
-@duel.command(description="Play duel against an opponent")
+@duel.command(description="Play duel against an opponent", guild_only=True)
 async def witdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@tournament.command(description="Cancel the current tournament")
+@tournament.command(description="Cancel the current tournament", guild_only=True)
 @has_permissions(moderate_members=True)
 async def withdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
@@ -125,7 +138,7 @@ async def withdraw(ctx: ApplicationContext):
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@tournament.command(description="Create a new tournament")
+@tournament.command(description="Create a new tournament", guild_only=True)
 @has_permissions(moderate_members=True)
 async def create(
     ctx: ApplicationContext,
