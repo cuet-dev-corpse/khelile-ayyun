@@ -13,6 +13,7 @@ from discord import (
 )
 from discord.ext.commands import has_permissions
 from dotenv import load_dotenv
+from pydantic import BaseModel
 from constants import (
     ABOUT_DESCRIPTION,
     ABOUT_FOOTER,
@@ -37,6 +38,10 @@ bot = Bot(
     status=Status.do_not_disturb,
 )
 
+def add_fields(embed: Embed, model: BaseModel):
+    for key, val in model.model_dump().items():
+        if key not in IGNORE_FIELDS and val is not None:
+            embed.add_field(name=key, value=str(val))
 
 @bot.event
 async def on_ready():
@@ -54,10 +59,8 @@ async def handle_set(
         user = user_info(handles=[handle])[0]
         uid = member.id if member else ctx.user.id
         set_handle(uid, handle)
+        add_fields(embed, user)
         embed.set_thumbnail(url=user.avatar)
-        for key, val in user.model_dump().items():
-            if key not in IGNORE_FIELDS and val is not None:
-                embed.add_field(name=key, value=str(val))
         embed.description = f"Handle of <@{uid}> set to `{handle}`"
     except CFStatusFailed as e:
         embed.description = str(e)
@@ -75,9 +78,7 @@ async def whois(
         try:
             user = user_info(handles=[handle])[0]
             embed.set_thumbnail(url=user.avatar)
-            for key, val in user.model_dump().items():
-                if key not in IGNORE_FIELDS and val is not None:
-                    embed.add_field(name=key, value=str(val))
+            add_fields(embed, user)
         except CFStatusFailed as e:
             embed.description = str(e)
     else:
