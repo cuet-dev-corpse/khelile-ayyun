@@ -90,19 +90,19 @@ async def get(
     member: Option(Member, description="Member of this server"),  # type: ignore
 ):
     embed = Embed(color=PRIMARY_COLOR)
-    handle = get_handle(member.id)
-    if handle:
-        if uid == bot.user.id: # type: ignore
-            embed.description = "I don't have a codeforces account :sob:"
-        else:
+    if member.id == bot.user.id: # type: ignore
+        embed.description = "I don't have a codeforces account :sob:"
+    else:
+        handle = get_handle(member.id)
+        if handle:
             try:
                 user = user_info(handles=[handle])[0]
                 embed.set_thumbnail(url=user.avatar)
                 add_fields(embed, user)
             except CFStatusFailed as e:
                 embed.description = str(e)
-    else:
-        embed.description = f"<@{member.id}> didn't set their handle yet"
+        else:
+            embed.description = f"<@{member.id}> didn't set their handle yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
