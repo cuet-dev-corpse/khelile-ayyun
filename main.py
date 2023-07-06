@@ -37,6 +37,9 @@ bot = Bot(
     activity=Activity(type=ActivityType.playing, name="Duel against Tourist"),
     status=Status.do_not_disturb,
 )
+handle = bot.create_group("handle", "Codeforces handle")
+duel = bot.create_group("duel", "Play Duel matches")
+tournament = bot.create_group("tournament", "Play tournaments")
 
 
 def add_fields(embed: Embed, model: BaseModel):
@@ -57,8 +60,8 @@ async def ping(ctx):
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(description="Register/change your codeforces handle")
-async def handle_set(
+@handle.command(description="Register/change your codeforces handle")
+async def set(
     ctx: ApplicationContext,
     handle: Option(str, description="Codeforces handle", required=True),  # type: ignore
     member: Option(Member, description="Member of this server", required=False),  # type: ignore
@@ -76,8 +79,8 @@ async def handle_set(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(description="Play duel against an opponent")
-async def whois(
+@handle.command(description="Play duel against an opponent")
+async def get(
     ctx: ApplicationContext,
     member: Option(Member, description="Member of this server"),  # type: ignore
 ):
@@ -95,8 +98,8 @@ async def whois(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(description="Play duel against an opponent")
-async def duel(
+@duel.command(description="Play duel against an opponent")
+async def challenge(
     ctx: ApplicationContext,
     opponent: Option(Member, description="Member of this server"),  # type: ignore
     rating: Option(int, description="Rating of problem"),  # type: ignore
@@ -106,24 +109,24 @@ async def duel(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(description="Play duel against an opponent")
-async def duel_witdraw(ctx: ApplicationContext):
+@duel.command(description="Play duel against an opponent")
+async def witdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(description="Cancel the current tournament")
+@tournament.command(description="Cancel the current tournament")
 @has_permissions(moderate_members=True)
-async def tournament_withdraw(ctx: ApplicationContext):
+async def withdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(description="Create a new tournament")
+@tournament.command(description="Create a new tournament")
 @has_permissions(moderate_members=True)
-async def tournament_create(
+async def create(
     ctx: ApplicationContext,
     n: Option(int, description="Number of players", required=True),  # type: ignore
 ):
