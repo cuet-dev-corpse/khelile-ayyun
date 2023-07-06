@@ -48,7 +48,7 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 
-@bot.slash_command(description="Register/change your codeforces handle")
+@bot.command(description="Register/change your codeforces handle")
 async def handle_set(
     ctx: ApplicationContext,
     handle: Option(str, description="Codeforces handle", required=True),  # type: ignore
@@ -67,7 +67,7 @@ async def handle_set(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Play duel against an opponent")
+@bot.command(description="Play duel against an opponent")
 async def whois(
     ctx: ApplicationContext,
     member: Option(Member, description="Member of this server"),  # type: ignore
@@ -86,7 +86,7 @@ async def whois(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Play duel against an opponent")
+@bot.command(description="Play duel against an opponent")
 async def duel(
     ctx: ApplicationContext,
     opponent: Option(Member, description="Member of this server"),  # type: ignore
@@ -97,14 +97,14 @@ async def duel(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Play duel against an opponent")
+@bot.command(description="Play duel against an opponent")
 async def duel_witdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Cancel the current tournament")
+@bot.command(description="Cancel the current tournament")
 @has_permissions(moderate_members=True)
 async def tournament_withdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
@@ -112,7 +112,7 @@ async def tournament_withdraw(ctx: ApplicationContext):
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(description="Create a new tournament")
+@bot.command(description="Create a new tournament")
 @has_permissions(moderate_members=True)
 async def tournament_create(
     ctx: ApplicationContext,
@@ -139,7 +139,7 @@ async def tournament_create(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.slash_command(name="about", description="Get to know খেলিলি আইয়ুন")
+@bot.command(name="about", description="Get to know খেলিলি আইয়ুন")
 async def about(ctx: ApplicationContext):
     embed = Embed(
         title=ABOUT_TITLE,
