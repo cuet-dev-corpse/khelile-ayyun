@@ -10,6 +10,7 @@ from discord import (
     Member,
     Option,
     Status,
+    guild_only
 )
 from discord.ext.commands import has_permissions
 from dotenv import load_dotenv
@@ -39,10 +40,6 @@ bot = Bot(
     activity=Activity(type=ActivityType.playing, name="Duel against Tourist"),
     status=Status.do_not_disturb,
 )
-handle = bot.create_group("handle", "Codeforces handle")
-duel = bot.create_group("duel", "Play Duel matches")
-tournament = bot.create_group("tournament", "Play tournaments")
-
 
 def add_fields(embed: Embed, model: BaseModel):
     for key, val in model.model_dump().items():
@@ -55,15 +52,15 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 
-@bot.command(description="Sends the bot's latency.")
+@bot.slash_command(description="Sends the bot's latency.")
 async def ping(ctx):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = f"Pong! Latency is {int(bot.latency*1000)}ms"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@handle.command(description="Register/change codeforces handle")
-async def set(
+@bot.slash_command(description="Register/change codeforces handle")
+async def handle_set(
     ctx: ApplicationContext,
     handle: Option(str, description="Codeforces handle", required=True),  # type: ignore
     member: Option(Member, description="Member of this server", required=False),  # type: ignore
@@ -84,8 +81,8 @@ async def set(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@handle.command(description="Look up someone's handle")
-async def get(
+@bot.slash_command(description="Look up someone's handle")
+async def handle_get(
     ctx: ApplicationContext,
     member: Option(Member, description="Member of this server"),  # type: ignore
 ):
@@ -105,9 +102,9 @@ async def get(
             embed.description = f"<@{member.id}> didn't set their handle yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
-
-@duel.command(description="Challenge someone for a duel", guild_only=True)
-async def challenge(
+@bot.slash_command(description="Challenge someone for a duel")
+@guild_only()
+async def duel_challenge(
     ctx: ApplicationContext,
     rating: Option(int, description="Rating of problem", required=True),  # type: ignore
     tag: Option(str, choices=TOP_25_TAGS, required=False),  # type: ignore
@@ -129,24 +126,27 @@ async def challenge(
         await ctx.respond(f"<@{opponent_id}>", embed=embed, ephemeral=True)
 
 
-@duel.command(description="Withdraw a duel", guild_only=True)
-async def witdraw(ctx: ApplicationContext):
+@bot.slash_command(description="Withdraw a duel")
+@guild_only()
+async def duel_witdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@tournament.command(description="Withdraw the current tournament", guild_only=True)
+@bot.slash_command(description="Withdraw the current tournament")
+@guild_only()
 @has_permissions(moderate_members=True)
-async def withdraw(ctx: ApplicationContext):
+async def tournament_withdraw(ctx: ApplicationContext):
     embed = Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@tournament.command(description="Create a new tournament", guild_only=True)
+@bot.slash_command(description="Create a new tournament")
+@guild_only()
 @has_permissions(moderate_members=True)
-async def create(
+async def tournament_create(
     ctx: ApplicationContext,
     n: Option(int, description="Number of players", required=True),  # type: ignore
 ):
@@ -171,7 +171,7 @@ async def create(
     await ctx.respond(embed=embed, ephemeral=True)
 
 
-@bot.command(name="about", description="Get to know খেলিলি আইয়ুন")
+@bot.slash_command(name="about", description="Get to know খেলিলি আইয়ুন")
 async def about(ctx: ApplicationContext):
     embed = Embed(
         title=ABOUT_TITLE,
