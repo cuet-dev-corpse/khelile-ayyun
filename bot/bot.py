@@ -1,11 +1,12 @@
 from math import log2
 import discord as d
-from discord.ext.commands import has_permissions
 from bot.models import Duel
 from bot.constants import (
     ABOUT_DESCRIPTION,
     ABOUT_FOOTER,
     ABOUT_TITLE,
+    EMOJI_SUCCESS,
+    EMOJI_WARNING,
     PRIMARY_COLOR,
     TOP_25_TAGS,
 )
@@ -52,12 +53,12 @@ async def handle_set(
         user = user_info(handles=[handle])[0]
         uid = member.id if member else ctx.user.id
         if uid == bot.user.id:  # type: ignore
-            embed.description = "I don't have a codeforces account :sob:"
+            embed.description = ":sob: I don't have a codeforces account"
         else:
             set_handle(uid, handle)
             add_fields(embed, user)
             embed.set_thumbnail(url=user.avatar)
-            embed.description = f"Handle of <@{uid}> set to `{handle}`"
+            embed.description = f"{EMOJI_SUCCESS} Handle of <@{uid}> set to `{handle}`"
     except CFStatusFailed as e:
         embed.description = str(e)
     await ctx.respond(embed=embed, ephemeral=True)
@@ -76,7 +77,7 @@ async def handle_get(
     """
     embed = d.Embed(color=PRIMARY_COLOR)
     if member.id == bot.user.id:  # type: ignore
-        embed.description = "I don't have a codeforces account :sob:"
+        embed.description = ":sob: I don't have a codeforces account"
     else:
         handle = get_handle(member.id)
         if handle:
@@ -88,6 +89,80 @@ async def handle_get(
                 embed.description = str(e)
         else:
             embed.description = f"<@{member.id}> didn't set their handle yet"
+    await ctx.respond(embed=embed, ephemeral=True)
+
+
+@bot.slash_command()
+@d.guild_only()
+async def duelist_create_role(ctx: d.ApplicationContext):
+    """Creates duelist role if it does not alreay exist
+
+    Handled Cases:
+    - Does not have permission to manage roles
+    - Role already exists
+    """
+    embed = d.Embed(color=PRIMARY_COLOR)
+    if not ctx.user.guild_permissions.manage_roles:  # type: ignore
+        embed.description = f"{EMOJI_WARNING} You don't have the permission to manage roles. Please contact with the admin"
+        await ctx.respond(embed=embed, ephemeral=True)
+        return
+    for role in ctx.guild.roles:  # type: ignore
+        if role.name == "duelist":
+            embed.description = f"{EMOJI_WARNING} {role.mention} already exists"
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
+    role = await ctx.guild.create_role(name="duelist")  # type: ignore
+    embed.description = f"{EMOJI_SUCCESS} Created {role.mention} role"
+    await ctx.respond(embed=embed, ephemeral=True)
+
+
+@bot.slash_command()
+@d.guild_only()
+async def duelist_get_role(ctx: d.ApplicationContext):
+    """Add duelist role to user
+
+    Handled Cases:
+    - Already have duelist role
+    - Role does not exist in guild
+    """
+    embed = d.Embed(color=PRIMARY_COLOR)
+    for role in ctx.user.roles:  # type: ignore
+        if role.name == "duelist":
+            embed.description = f"{EMOJI_WARNING} You already have {role.mention} role"
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
+    for role in ctx.guild.roles:  # type: ignore
+        if role.name == "duelist":
+            await ctx.user.add_roles(role)  # type: ignore
+            embed.description = f"{EMOJI_SUCCESS} Added {role.mention} role"
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
+    embed.description = f"{EMOJI_WARNING} This server does not have `duelist` role. Please use /duelist_create_role to create the role"
+    await ctx.respond(embed=embed, ephemeral=True)
+
+
+@bot.slash_command()
+@d.guild_only()
+async def duelist_remove_role(ctx: d.ApplicationContext):
+    """Remove duelist role from user
+
+    Handled Cases:
+    - Role does not exist in guild
+    - User does not have duelist role
+    """
+    embed = d.Embed(color=PRIMARY_COLOR)
+    for role in ctx.guild.roles:  # type: ignore
+        if role.name == "duelist":
+            for user_role in ctx.user.roles:  # type: ignore
+                if user_role.name == "duelist":
+                    await ctx.user.remove_roles(user_role)  # type: ignore
+                    embed.description = f"{EMOJI_SUCCESS} Removed {role.mention} role"
+                    await ctx.respond(embed=embed, ephemeral=True)
+                    return
+            embed.description = f"{EMOJI_WARNING} You don't have {role.mention} role"
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
+    embed.description = f"{EMOJI_WARNING} This server does not have `duelist` role. Please use /duelist_create_role to create the role"
     await ctx.respond(embed=embed, ephemeral=True)
 
 
@@ -133,7 +208,6 @@ async def duel_witdraw(ctx: d.ApplicationContext):
 
 @bot.slash_command(description="Withdraw the current tournament")
 @d.guild_only()
-@has_permissions(moderate_members=True)
 async def tournament_withdraw(ctx: d.ApplicationContext):
     embed = d.Embed(color=PRIMARY_COLOR)
     embed.description = "The feature is not implemented yet"
@@ -142,7 +216,6 @@ async def tournament_withdraw(ctx: d.ApplicationContext):
 
 @bot.slash_command(description="Create a new tournament")
 @d.guild_only()
-@has_permissions(moderate_members=True)
 async def tournament_create(
     ctx: d.ApplicationContext,
     n: d.Option(int, description="Number of players", required=True),  # type: ignore

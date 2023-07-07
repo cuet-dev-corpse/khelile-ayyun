@@ -48,3 +48,6 @@ TOP_25_TAGS = [
     "implementation",
     "math",
 ]
+
+EMOJI_WARNING = ":warning:"
+EMOJI_SUCCESS = ":white_check_mark:"
