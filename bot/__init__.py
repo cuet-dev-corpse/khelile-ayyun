@@ -13,7 +13,7 @@ from bot.constants import (
 from bot.utils import add_fields
 from services.codeforces.exceptions import CFStatusFailed
 from services.codeforces.methods import problemset_problems, user_info
-from services.db import add_duel, get_handle, set_handle
+from services import db
 
 
 bot = d.Bot(
@@ -55,7 +55,7 @@ async def handle_set(
         if uid == bot.user.id:  # type: ignore
             embed.description = ":sob: I don't have a codeforces account"
         else:
-            set_handle(uid, handle)
+            db.set_handle(uid, handle)
             add_fields(embed, user)
             embed.set_thumbnail(url=user.avatar)
             embed.description = f"{EMOJI_SUCCESS} Handle of <@{uid}> set to `{handle}`"
@@ -79,7 +79,7 @@ async def handle_get(
     if member.id == bot.user.id:  # type: ignore
         embed.description = ":sob: I don't have a codeforces account"
     else:
-        handle = get_handle(member.id)
+        handle = db.get_handle(member.id)
         if handle:
             try:
                 user = user_info(handles=[handle])[0]
@@ -184,7 +184,7 @@ async def duel_challenge(
     """
     embed = d.Embed(color=PRIMARY_COLOR)
     duel = Duel(challengerId=ctx.user.id, rating=rating)
-    existing_duel = add_duel(ctx.guild_id, duel)  # type: ignore
+    existing_duel = db.add_duel(ctx.guild_id, duel)  # type: ignore
     if existing_duel:
         embed.description = f"There is already a duel between <@{existing_duel.challengeeId}> and <@{existing_duel.challengerId}>"
         await ctx.respond(embed=embed, ephemeral=True)
