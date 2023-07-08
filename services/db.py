@@ -42,14 +42,21 @@ def add_duel(gid: int, duel: Duel) -> Optional[Duel]:
     with open(duel_db_path) as f:
         entries: list[dict] = json.loads(f.read())
     for entry in entries:
-        duel_entry = Duel(**entry)
-        if duel.challengeeId in [
-            duel_entry.challengeeId,
-            duel_entry.challengerId,
-        ] or duel.challengerId in [
-            duel_entry.challengeeId,
-            duel_entry.challengerId,
-        ]:
+        duel_entry = Duel(**entry)  # type: ignore
+        if (
+            duel.challengeeId
+            and duel.challengeeId
+            in [
+                duel_entry.challengeeId,
+                duel_entry.challengerId,
+            ]
+            or duel.challengerId
+            and duel.challengerId
+            in [
+                duel_entry.challengeeId,
+                duel_entry.challengerId,
+            ]
+        ):
             return duel_entry
     entries.append(duel.model_dump())
     with open(duel_db_path, "w") as f:

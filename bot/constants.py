@@ -50,4 +50,5 @@ TOP_25_TAGS = [
 ]
 
 EMOJI_WARNING = ":warning:"
+EMOJI_INFO = ":information_source:"
 EMOJI_SUCCESS = ":white_check_mark:"
