@@ -1,7 +1,7 @@
 from typing import Optional
 import discord as d
 from discord.ext import commands
-from bot.constants import EMOJI_WARNING, PRIMARY_COLOR, TOP_25_TAGS
+from bot.constants import EMOJI_SOB, EMOJI_WARNING, PRIMARY_COLOR, TOP_25_TAGS
 from services import db
 from bot import models
 
@@ -31,7 +31,7 @@ class Duel(commands.Cog):
         embed = d.Embed(color=PRIMARY_COLOR)
         opponent_id = opponent.id if opponent else None
         if opponent_id == self.bot.user.id:  # type: ignore
-            embed.description = ":sob: I don't have a codeforces account"
+            embed.description = f"{EMOJI_SOB} I don't have a codeforces account"
             await ctx.respond(embed=embed, ephemeral=True)
             return
         if not db.get_handle(ctx.user.id):
@@ -47,7 +47,7 @@ class Duel(commands.Cog):
         if existing_duel:
             if existing_duel.challengeeId == None:
                 embed.description = (
-                    f"<@{existing_duel.challengerId}>, you are already in an open duel"
+                    f"{EMOJI_WARNING} <@{existing_duel.challengerId}>, you are already in an open duel"
                 )
             else:
                 embed.description = f"<@{existing_duel.challengerId}>, you are already in a duel with <@{existing_duel.challengeeId}>"

@@ -49,6 +49,7 @@ TOP_25_TAGS = [
     "math",
 ]
 
-EMOJI_WARNING = ":warning:"
+EMOJI_WARNING = ":negative_squared_cross_mark:"
 EMOJI_INFO = ":information_source:"
 EMOJI_SUCCESS = ":white_check_mark:"
+EMOJI_SOB = ":sob:"

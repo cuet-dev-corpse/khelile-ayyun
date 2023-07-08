@@ -1,6 +1,6 @@
 import discord as d
 from discord.ext import commands
-from bot.constants import EMOJI_INFO, EMOJI_SUCCESS, EMOJI_WARNING, PRIMARY_COLOR
+from bot.constants import EMOJI_INFO, EMOJI_SOB, EMOJI_SUCCESS, EMOJI_WARNING, PRIMARY_COLOR
 from bot.utils import add_fields
 from services import db
 from services.codeforces.exceptions import CFStatusFailed
@@ -30,7 +30,7 @@ class Handle(commands.Cog):
             user = user_info(handles=[handle])[0]
             uid = member.id if member else ctx.user.id
             if uid == self.bot.user.id:  # type: ignore
-                embed.description = ":sob: I don't have a codeforces account"
+                embed.description = f"{EMOJI_SOB} I don't have a codeforces account"
             else:
                 db.set_handle(uid, handle)
                 add_fields(embed, user)
@@ -56,7 +56,7 @@ class Handle(commands.Cog):
         """
         embed = d.Embed(color=PRIMARY_COLOR)
         if member.id == self.bot.user.id:  # type: ignore
-            embed.description = ":sob: I don't have a codeforces account"
+            embed.description = f"{EMOJI_SOB} I don't have a codeforces account"
         else:
             handle = db.get_handle(member.id)
             if handle:
