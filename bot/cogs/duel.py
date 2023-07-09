@@ -22,6 +22,7 @@ class Duel(commands.Cog):
         """Challenge someone for a duel
 
         Handled Cases:
+        - Invalid rating
         - Opponent mentioned is the bot itself
         - Challengee or Challenger didn't set handle
         - Challengee or Challenger already in a duel
