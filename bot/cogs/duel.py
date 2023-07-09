@@ -29,6 +29,14 @@ class Duel(commands.Cog):
         - CFStatusFailed
         """
         embed = d.Embed(color=PRIMARY_COLOR)
+        if rating%100!=0:
+            embed.description = f"{EMOJI_WARNING} Rating must be a multiple of 100"
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
+        if not 800<=rating<=3500:
+            embed.description = f"{EMOJI_WARNING} Rating must be in the range [800,3500]"
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
         opponent_id = opponent.id if opponent else None
         if opponent_id == self.bot.user.id:  # type: ignore
             embed.description = f"{EMOJI_SOB} I don't have a codeforces account"
